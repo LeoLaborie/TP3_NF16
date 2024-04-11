@@ -1,4 +1,3 @@
-
 typedef struct sommet{
     int indice;
     struct sommet *suiv;
