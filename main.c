@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "tp3.c"
+#include "tp3.h"
 
-int main()
-{   
+int main(){   
     printf("saisissez le nombre de sommet de votre graphe\n");
     int nbr_sommet;
     scanf("%d", &nbr_sommet);

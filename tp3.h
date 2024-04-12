@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#ifndef TP3_H
+#define TP3_H
 typedef struct sommet{
     int indice;
     struct sommet *suiv;
@@ -34,3 +37,6 @@ int contientBoucle(graphe g);
 void fusionnerSommet(graphe *g, int idSommet1, int idSommet2);
 
 int is_in_voisin(sommet s, int id_sommet);
+
+
+#endif

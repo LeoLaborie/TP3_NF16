@@ -2,25 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 graphe* creerGraphe(){
-    graphe *g;
+    graphe *g = malloc(sizeof(graphe));
+    if (g==NULL) printf("Erreur malloc creerGraphe");
+    g->sommet = NULL;
     return g;
 }
 
 void creerSommet(graphe *g, int id){
-    sommet s;
-    s.indice = id;
-    // voisin voisin_creer;
-    // voisin_creer.indice = 0;
-    // while (voisin_creer.indice != -1){
-    //     printf("veuiller rentrer un voisin pour le sommet %d (-1 pour quitter)\n", id);
-    //     scanf("%d", &voisin_creer.indice);
-    //     if (voisin_creer.indice != -1){
-    //         voisin_creer.suiv = s.voisin;
-    //         s.voisin = &voisin_creer;
-    //     }
-    // }
-    s.suiv = (*g).sommet;
-    g->sommet = &s;
+    sommet *s = malloc(sizeof(sommet));
+    if (s==NULL) printf("Erreur malloc creerSommet");
+
+    s->indice = id;
+
+    s->suiv = g->sommet;
+    g->sommet = s;
     
 }
 
@@ -29,19 +24,22 @@ sommet* rechercherSommet(graphe g, int id){
     while (sommet_temp != NULL){ 
 
         if ((*sommet_temp).indice == id){
-         return sommet_temp;
+            // printf("sommet trouve");
+            return sommet_temp;
         }
         sommet_temp = (*sommet_temp).suiv;
     
     }
+    printf("Erreur, sommet pas trouvé");
     return 0;
 
 }
 
 void ajouterArete(graphe *g, int id1, int id2){
+    printf("fct ajtarrete: %d et %d", id1, id2);
     sommet *s1 = rechercherSommet(*g,id1); 
     sommet *s2 = rechercherSommet(*g,id2); 
-    printf("nonnon");
+    printf("fct ajtarrete: sommet trouve: %d et %d", s1->indice, s2->indice);
     if (s1 != NULL && s2 != NULL && !(is_in_voisin(*s1, id2)) && !(is_in_voisin(*s2, id1))){ // verifie si les sommets existent, et ne sont pas deja voisin
         voisin voisin_cree1;
         voisin_cree1.indice = id2;
@@ -52,7 +50,6 @@ void ajouterArete(graphe *g, int id1, int id2){
         voisin_cree2.indice = id1;
         voisin_cree2.suiv = (*s2).voisin;
         (*s2).voisin = &voisin_cree2;
-        printf("oui moi c'est ouioui");
 
     }
 }
@@ -65,14 +62,24 @@ graphe* construireGraphe(int N){
         scanf("%d", &indice_sommet);
         creerSommet(g, indice_sommet);
     }
+    printf("Combien d'arretes souhaitez vous ajouter ?\n");
+    int nbr_arrete;
+    scanf("%d", &nbr_arrete);
+
     int indice_sommet1;
     int indice_sommet2;
-    while (indice_sommet1 != -1){
-        printf("saisissez les id de deux sommets à relier, faire '-1 -1' pour sortir\n");
-        scanf("%d %d", &indice_sommet1, &indice_sommet2);
-        if (indice_sommet1 != -1) ajouterArete(g, indice_sommet1, indice_sommet2);
-    }
+    for (int i = 0; i<nbr_arrete; i++){
 
+        printf("saisissez l'id du premier sommet à relier avec une arrete\n");
+        scanf("%d", &indice_sommet1);
+        printf("saisissez l'id du second sommet à relier avec une arrete au sommet %d\n", indice_sommet1);
+        printf("debut du scanf\n");
+        scanf("%d", &indice_sommet2);
+        printf("scanf reussi\n");
+        printf("%d %d\n", indice_sommet1, indice_sommet2);
+        ajouterArete(g, indice_sommet1, indice_sommet2);
+        printf("Les sommets %d et %d ont correctement été reliés avec une arrête.\n", indice_sommet1, indice_sommet2);
+    }
     return g;
 
 }
