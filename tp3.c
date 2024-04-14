@@ -36,10 +36,8 @@ sommet* rechercherSommet(graphe g, int id){
 }
 
 void ajouterArete(graphe *g, int id1, int id2){
-    printf("fct ajtarrete: %d et %d", id1, id2);
     sommet *s1 = rechercherSommet(*g,id1); 
     sommet *s2 = rechercherSommet(*g,id2); 
-    printf("fct ajtarrete: sommet trouve: %d et %d", s1->indice, s2->indice);
     if (s1 != NULL && s2 != NULL && !(is_in_voisin(*s1, id2)) && !(is_in_voisin(*s2, id1))){ // verifie si les sommets existent, et ne sont pas deja voisin
         voisin voisin_cree1;
         voisin_cree1.indice = id2;
@@ -73,9 +71,9 @@ graphe* construireGraphe(int N){
         printf("saisissez l'id du premier sommet à relier avec une arrete\n");
         scanf("%d", &indice_sommet1);
         printf("saisissez l'id du second sommet à relier avec une arrete au sommet %d\n", indice_sommet1);
-        printf("debut du scanf\n");
+
         scanf("%d", &indice_sommet2);
-        printf("scanf reussi\n");
+
         printf("%d %d\n", indice_sommet1, indice_sommet2);
         ajouterArete(g, indice_sommet1, indice_sommet2);
         printf("Les sommets %d et %d ont correctement été reliés avec une arrête.\n", indice_sommet1, indice_sommet2);

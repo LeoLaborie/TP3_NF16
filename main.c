@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "tp3.c"
 #include "tp3.h"
 
 
@@ -75,7 +76,7 @@ int main(){
                     printf("Veuillez dans un premier temps creer un graphe");
                 } else {
                     printf("Pour ajouter une arete, veuillez saisir l'indice du premier sommet :\n");
-                    printf("%d", &idSommet);
+                    scanf("%d", &idSommet);
                     printf("Veuillez saisir l'indice du second sommet :\n");
                     scanf("%d", &idSommet2);
                     sommet *s = rechercherSommet(*g, idSommet);
