@@ -1,16 +1,17 @@
 #include "tp3.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 graphe* creerGraphe(){
     graphe *g = malloc(sizeof(graphe));
-    if (g==NULL) printf("Erreur malloc creerGraphe");
+    if (g==NULL) printf("Erreur malloc creerGraphe\n");
     g->sommet = NULL;
     return g;
 }
 
 void creerSommet(graphe *g, int id){
     sommet *s = malloc(sizeof(sommet));
-    if (s==NULL) printf("Erreur malloc creerSommet");
+    if (s==NULL) printf("Erreur malloc creerSommet\n");
 
     s->indice = id;
 
@@ -18,6 +19,7 @@ void creerSommet(graphe *g, int id){
     g->sommet = s;
     
 }
+
 
 sommet* rechercherSommet(graphe g, int id){
     sommet *sommet_temp = g.sommet;
@@ -30,25 +32,46 @@ sommet* rechercherSommet(graphe g, int id){
         sommet_temp = (*sommet_temp).suiv;
     
     }
-    printf("Erreur, sommet pas trouvé");
+    printf("Erreur, sommet pas trouvé\n");
+
     return 0;
 
 }
 
+
 void ajouterArete(graphe *g, int id1, int id2){
+
     sommet *s1 = rechercherSommet(*g,id1); 
     sommet *s2 = rechercherSommet(*g,id2); 
     if (s1 != NULL && s2 != NULL && !(is_in_voisin(*s1, id2)) && !(is_in_voisin(*s2, id1))){ // verifie si les sommets existent, et ne sont pas deja voisin
-        voisin voisin_cree1;
-        voisin_cree1.indice = id2;
-        voisin_cree1.suiv = (*s1).voisin;
-        (*s1).voisin = &voisin_cree1;
+        if (s1->voisin == NULL) {
+            s1->voisin = (voisin *)malloc(sizeof(voisin));
+            s1->voisin->indice = id2;
+            s1->voisin->suiv = NULL;
+        } else {
+            voisin *buffer = s1->voisin;
+            while (buffer->suiv != NULL) {
+                buffer = buffer->suiv;
+            }
+            buffer->suiv = (voisin *)malloc(sizeof(voisin));
+            buffer->suiv->indice = id2;
+            buffer->suiv->suiv = NULL;
+        }
 
-        voisin voisin_cree2;
-        voisin_cree2.indice = id1;
-        voisin_cree2.suiv = (*s2).voisin;
-        (*s2).voisin = &voisin_cree2;
-
+        // Ajout de l'arête de id2 à id1
+        if (s2->voisin == NULL) {
+            s2->voisin = (voisin *)malloc(sizeof(voisin));
+            s2->voisin->indice = id1;
+            s2->voisin->suiv = NULL;
+        } else {
+            voisin *buffer = s2->voisin;
+            while (buffer->suiv != NULL) {
+                buffer = buffer->suiv;
+            }
+            buffer->suiv = (voisin *)malloc(sizeof(voisin));
+            buffer->suiv->indice = id1;
+            buffer->suiv->suiv = NULL;
+        }
     }
 }
 
@@ -74,7 +97,6 @@ graphe* construireGraphe(int N){
 
         scanf("%d", &indice_sommet2);
 
-        printf("%d %d\n", indice_sommet1, indice_sommet2);
         ajouterArete(g, indice_sommet1, indice_sommet2);
         printf("Les sommets %d et %d ont correctement été reliés avec une arrête.\n", indice_sommet1, indice_sommet2);
     }
@@ -85,14 +107,14 @@ graphe* construireGraphe(int N){
 void afficherGraphe(graphe g){
     sommet *sommet_temp = g.sommet;
     while (sommet_temp != NULL) {
-        printf("%d - ", (*sommet_temp).indice);
+        printf("%d ", (*sommet_temp).indice);
         voisin *voisin_temp = (*sommet_temp).voisin;
         while (voisin_temp != NULL){
-            printf("%d ->", (*voisin_temp).indice);
+            printf("-> %d ", (*voisin_temp).indice);
             voisin_temp = (*voisin_temp).suiv;
         }
-        printf("\n|\n");
         sommet_temp = (*sommet_temp).suiv;
+        if (sommet_temp != NULL) printf("\n|\n");
     }
 }
 
@@ -117,7 +139,6 @@ void supprimerSommet(graphe *g, int id){
     sommet sommet_temp = *g->sommet;
     if (g->sommet->indice == id){
         *g->sommet = *g->sommet->suiv;
-        // free(sommet_temp); //on doit le free mais ca fait une erreur
         return;
     }
     while (sommet_temp.suiv != NULL){
