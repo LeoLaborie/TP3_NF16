@@ -46,17 +46,17 @@ int main(){
                 if(g != NULL){
                     printf("Suppresion du graphe précédent...\n");
                     free(g);
-                }else{
-                    printf("Veuillez saisir le nombre de sommets pour le graphe\n");
-                    scanf("%d", &nombre_sommets);
-                    if(nombre_sommets==0){
-                        g = creerGraphe();
-                    }else if(nombre_sommets>0){
-                        g = construireGraphe(nombre_sommets);
-                    }else{
-                        printf("Vous ne pouvez construire un graphe qu'avec un nombre de sommet positif\n");
-                    }
                 }
+                printf("Veuillez saisir le nombre de sommets pour le graphe\n");
+                scanf("%d", &nombre_sommets);
+                if(nombre_sommets==0){
+                    g = creerGraphe();
+                }else if(nombre_sommets>0){
+                    g = construireGraphe(nombre_sommets);
+                }else{
+                    printf("Vous ne pouvez construire un graphe qu'avec un nombre de sommet positif\n");
+                }
+                
                 break;
             case 3: //Ajouter un sommet
                         if(g == 0){
