@@ -143,6 +143,7 @@ graphe* construireGraphe(int N){
 
 void afficherGraphe(graphe g){
     printf("------------------------------------------------\n");
+    if (g.sommet == NULL) printf("votre graphe est vide");
     sommet *sommet_temp = g.sommet;
     while (sommet_temp != NULL) {
         printf("%d ", (*sommet_temp).indice);
@@ -174,26 +175,30 @@ int rechercherDegre(graphe g){
 }
 
 void supprimerSommet(graphe *g, int id){
-    sommet sommet_temp = *g->sommet;
     if (g->sommet->indice == id){
-        *g->sommet = *g->sommet->suiv;
+        sommet *sommet_temp = g->sommet->suiv;
+        free(g->sommet);
+        g->sommet = sommet_temp;
         return;
     }
-    while (sommet_temp.suiv != NULL){
-        if ((*sommet_temp.suiv).indice == id){
-            sommet_temp.suiv = sommet_temp.suiv->suiv;
-        }
+    sommet *buffer = g->sommet;
+    while (buffer->suiv->indice != id){
+        buffer = buffer->suiv;
     }
+    sommet *sommet_temp = buffer->suiv->suiv;
+    free(buffer->suiv);
+    buffer->suiv = sommet_temp; 
+
 }
 
 int contientBoucle(graphe g){
     sommet *sommet_temp = g.sommet;
     
     while (sommet_temp != NULL){
-        voisin *voisin_temp = (*sommet_temp).voisin;
+        voisin *voisin_temp = sommet_temp->voisin;
         while (voisin_temp != NULL){
-            if ((*voisin_temp).indice == (*sommet_temp).indice) return 1;
-            voisin_temp = (*voisin_temp).suiv;
+            if (voisin_temp->indice == sommet_temp->indice) return 1;
+            voisin_temp = voisin_temp->suiv;
         }
     }
     return 0;
@@ -204,17 +209,17 @@ void fusionnerSommet(graphe *g, int idSommet1, int idSommet2){
     sommet *s1 = rechercherSommet(*g, idSommet1);
     sommet *s2 = rechercherSommet(*g, idSommet2);
 
-    if ((*s1).indice >= (*s2).indice && (*s2).voisin != NULL){
+    if (s1->indice >= s2->indice && s2->voisin != NULL){
         sommet *p = s1;
         s1 = s2;
         s2 = p;
     }
-    voisin *voisin2_temp = (*s2).voisin;
+    voisin *voisin2_temp = s2->voisin;
     while (voisin2_temp != NULL){
-        if (!(is_in_voisin(*s1, (*voisin2_temp).indice) || (*voisin2_temp).indice == idSommet2)){
+        if (!(is_in_voisin(*s1, voisin2_temp->indice) || voisin2_temp->indice == idSommet2)){
             ajouterArete(g, (*s1).indice, (*voisin2_temp).indice);
         }
-        voisin2_temp = (*voisin2_temp).suiv;
+        voisin2_temp = voisin2_temp->suiv;
     }
 
     supprimerSommet(g, idSommet2);
@@ -224,8 +229,8 @@ void fusionnerSommet(graphe *g, int idSommet1, int idSommet2){
 int is_in_voisin(sommet s, int id_sommet){ //renvoie 1 si id_sommet est un voisin du sommet s, sinon retourne 0
     voisin *voisin_temp = s.voisin;
     while (voisin_temp != NULL){
-        if ((*voisin_temp).indice == id_sommet) return 1;
-        voisin_temp = (*voisin_temp).suiv;
+        if (voisin_temp->indice == id_sommet) return 1;
+        voisin_temp = voisin_temp->suiv;
     }
     return 0;
 }
