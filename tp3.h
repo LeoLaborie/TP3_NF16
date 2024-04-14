@@ -1,6 +1,6 @@
-#include <stdlib.h>
 #ifndef TP3_H
 #define TP3_H
+#include <stdlib.h>
 typedef struct sommet{
     int indice;
     struct sommet *suiv;

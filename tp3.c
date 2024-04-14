@@ -32,8 +32,6 @@ sommet* rechercherSommet(graphe g, int id){
         sommet_temp = (*sommet_temp).suiv;
     
     }
-    printf("Erreur, sommet pas trouvé\n");
-
     return 0;
 
 }
@@ -105,6 +103,7 @@ graphe* construireGraphe(int N){
 }
 
 void afficherGraphe(graphe g){
+    printf("------------------------------------------------\n");
     sommet *sommet_temp = g.sommet;
     while (sommet_temp != NULL) {
         printf("%d ", (*sommet_temp).indice);
@@ -176,7 +175,6 @@ void fusionnerSommet(graphe *g, int idSommet1, int idSommet2){
         if (!(is_in_voisin(*s1, (*voisin2_temp).indice) || (*voisin2_temp).indice == idSommet2)){
             ajouterArete(g, (*s1).indice, (*voisin2_temp).indice);
         }
-
         voisin2_temp = (*voisin2_temp).suiv;
     }
 

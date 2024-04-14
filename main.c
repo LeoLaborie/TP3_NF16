@@ -36,15 +36,15 @@ int main(){
         switch(choix){
             case 1: //Créer un graphe vide
                 if(g != NULL){
-                    printf("Suppresion du graphe précédent...");
+                    printf("Suppresion du graphe précédent...\n");
                     free(g);
-                }else{
-                    g = creerGraphe();
                 }
+                g = creerGraphe();
+                printf("graphe vide créé !\n");
                 break;
             case 2: //Construire un graphe de N sommets
                 if(g != NULL){
-                    printf("Suppresion du graphe précédent...");
+                    printf("Suppresion du graphe précédent...\n");
                     free(g);
                 }else{
                     printf("Veuillez saisir le nombre de sommets pour le graphe\n");
@@ -54,26 +54,26 @@ int main(){
                     }else if(nombre_sommets>0){
                         g = construireGraphe(nombre_sommets);
                     }else{
-                        printf("Vous ne pouvez construire un graphe qu'avec un nombre de sommet positif");
+                        printf("Vous ne pouvez construire un graphe qu'avec un nombre de sommet positif\n");
                     }
                 }
                 break;
             case 3: //Ajouter un sommet
                         if(g == 0){
-                            printf("Veuillez dans un premier temps creer un graphe");
+                            printf("Veuillez dans un premier temps creer un graphe\n");
                         }
                         printf("Veuillez saisir l'indice du sommet :\n");
                         scanf("%d", &idSommet);
                         s = rechercherSommet(*g, idSommet);
                         if(s!=NULL){
-                            printf("Ce sommet existe déjà");
+                            printf("Ce sommet existe déjà\n");
                         } else {
-                            //fonction ajouter sommet
+                            creerSommet(g, idSommet);
                         }
                         break;
             case 4: //Ajouter une arête
                 if(g == 0){
-                    printf("Veuillez dans un premier temps creer un graphe");
+                    printf("Veuillez dans un premier temps creer un graphe\n");
                 } else {
                     printf("Pour ajouter une arete, veuillez saisir l'indice du premier sommet :\n");
                     scanf("%d", &idSommet);
@@ -81,71 +81,77 @@ int main(){
                     scanf("%d", &idSommet2);
                     sommet *s = rechercherSommet(*g, idSommet);
                     sommet *s2 = rechercherSommet(*g, idSommet2);
+                    if (s==NULL || s2 == NULL){
                     if(s == NULL){
-                        printf("Le sommet %d n'existe pas", idSommet);
-                    }else if(s2 == NULL){
-                        printf("Le sommet %d n'existe pas", idSommet2);
+                        printf("Le sommet %d n'existe pas\n", idSommet);
+                    }
+                    if(s2 == NULL){
+                        printf("Le sommet %d n'existe pas\n", idSommet2);
+                    }
                     }else{
-                        //appel fonction arete
+                        ajouterArete(g, idSommet, idSommet2);
                     }
                 }
 
                 break;
             case 5: //appel fonction Afficher un graphe
                 if(g == 0){
-                    printf("Veuillez dans un premier temps creer un graphe");
+                    printf("Veuillez dans un premier temps creer un graphe\n");
                 } else {
                 afficherGraphe(*g);
                 }
                 break;
             case 6: //appel fonction Donner le degré maximal du graphe
                 if(g == 0){
-                    printf("Veuillez dans un premier temps creer un graphe");
+                    printf("Veuillez dans un premier temps creer un graphe\n");
                 } else {
                     printf("Le degre maximal du graphe est %d\n", rechercherDegre(*g));
                 }
                 break;
             case 7: //appel fonction Supprimer un sommet
                 if(g == 0){
-                    printf("Veuillez dans un premier temps creer un graphe");
+                    printf("Veuillez dans un premier temps creer un graphe\n");
                 } else {
                     printf("Veuillez saisir l'indice du sommet à supprimer :\n");
                     scanf("%d", &idSommet);
                     sommet *s = rechercherSommet(*g, idSommet);
                     if(s == NULL){
-                        printf("Le sommet %d n'existe pas", idSommet);
+                        printf("Le sommet %d n'existe pas\n", idSommet);
                     }else{
-                        //appel fonction supprimer sommet
+                        supprimerSommet(g, idSommet);
                     }
                 }
                 break;
             case 8: //appel fonction Vérifier si le graphe contient une boucle
                 if(g == 0){
-                    printf("Veuillez dans un premier temps creer un graphe");
+                    printf("Veuillez dans un premier temps creer un graphe\n");
                 } else {
                     if(contientBoucle(*g)){
-                        printf("Le graphe contient une boucle");
+                        printf("Le graphe contient une boucle\n");
                     }else{
-                        printf("Le graphe ne contient pas de boucles");
+                        printf("Le graphe ne contient pas de boucles\n");
                     }
                 }
                 break;
             case 9: //appel fonction Fusionner deux sommets
                 if(g == 0){
-                    printf("Veuillez dans un premier temps creer un graphe");
+                    printf("Veuillez dans un premier temps creer un graphe\n");
                 } else {
-                    printf("Veuillez l'indice du premier sommet");
+                    printf("Veuillez saisir l'indice du premier sommet\n");
                     scanf("%d", &idSommet);
-                    printf("Veuillez saisir l'indice du second sommet");
+                    printf("Veuillez saisir l'indice du second sommet\n");
                     scanf("%d", &idSommet2);
                     sommet *s = rechercherSommet(*g, idSommet);
                     sommet *s2 = rechercherSommet(*g, idSommet2);
+                    if (s==NULL||s2==NULL){
                     if(s == NULL){
-                        printf("Le sommet %d n'existe pas", idSommet);
-                    }else if(s2 == NULL){
-                        printf("Le sommet %d n'existe pas", idSommet2);
-                    }else{
-                        //appel fonction fusionner deux sommets
+                        printf("Le sommet %d n'existe pas\n", idSommet);
+                    }
+                    if(s2 == NULL){
+                        printf("Le sommet %d n'existe pas\n", idSommet2);
+                    }}
+                    else{
+                        fusionnerSommet(g, idSommet, idSommet2);
                     }
                 }
                 break;
@@ -156,7 +162,7 @@ int main(){
                 }
                 break;
             default :
-                printf("Ce choix n'est pas valide dans le menu precedent...");
+                printf("Ce choix n'est pas valide dans le menu precedent...\n");
                 break;
         }
 
