@@ -146,13 +146,13 @@ void afficherGraphe(graphe g){
     if (g.sommet == NULL) printf("votre graphe est vide");
     sommet *sommet_temp = g.sommet;
     while (sommet_temp != NULL) {
-        printf("%d ", (*sommet_temp).indice);
-        voisin *voisin_temp = (*sommet_temp).voisin;
+        printf("%d ", sommet_temp->indice);
+        voisin *voisin_temp = sommet_temp->voisin;
         while (voisin_temp != NULL){
-            printf("-> %d ", (*voisin_temp).indice);
-            voisin_temp = (*voisin_temp).suiv;
+            printf("-> %d ", voisin_temp->indice);
+            voisin_temp = voisin_temp->suiv;
         }
-        sommet_temp = (*sommet_temp).suiv;
+        sommet_temp = sommet_temp->suiv;
         if (sommet_temp != NULL) printf("\n|\n");
     }
 }
@@ -175,12 +175,13 @@ int rechercherDegre(graphe g){
 }
 
 void supprimerSommet(graphe *g, int id){
+    //supprimer le sommet id
     if (g->sommet->indice == id){
         sommet *sommet_temp = g->sommet->suiv;
         free(g->sommet);
         g->sommet = sommet_temp;
-        return;
     }
+    else{
     sommet *buffer = g->sommet;
     while (buffer->suiv->indice != id){
         buffer = buffer->suiv;
@@ -188,6 +189,32 @@ void supprimerSommet(graphe *g, int id){
     sommet *sommet_temp = buffer->suiv->suiv;
     free(buffer->suiv);
     buffer->suiv = sommet_temp; 
+    }
+    // supprimer les voisins id
+    sommet *buffer1 = g->sommet;
+    buffer1 = g->sommet;
+    voisin *voisin_temp;
+    while (buffer1 != NULL){
+        voisin_temp = buffer1->voisin;
+        if (voisin_temp!=NULL && voisin_temp->indice == id){
+            free(buffer1->voisin);
+            buffer1->voisin = voisin_temp->suiv;
+        }
+        else{
+            while (voisin_temp!=NULL && voisin_temp->suiv != NULL){
+                if (voisin_temp->suiv->indice == id){
+                    voisin_temp->suiv = voisin_temp->suiv->suiv;
+                }
+                voisin_temp = voisin_temp->suiv;
+            }
+            if (voisin_temp!=NULL && voisin_temp->indice == id){
+                free(voisin_temp);
+            }
+        }
+        buffer1 = buffer1->suiv;
+    }
+
+
 
 }
 
