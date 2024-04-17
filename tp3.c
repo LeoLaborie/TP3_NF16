@@ -131,7 +131,7 @@ graphe* construireGraphe(int N){
         else creerSommet(g, indice_sommet);
         
     }
-    printf("Combien d'arretes souhaitez vous ajouter ?\n");
+    printf("Combien d'aretes souhaitez vous ajouter ?\n");
     int nbr_arrete;
     scanf("%d", &nbr_arrete);
 
