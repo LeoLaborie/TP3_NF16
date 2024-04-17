@@ -38,5 +38,7 @@ void fusionnerSommet(graphe *g, int idSommet1, int idSommet2);
 
 int is_in_voisin(sommet s, int id_sommet);
 
+void liberer_proprement_sommets(sommet *s);
 
+void liberer_proprement_voisins(voisin *vois);
 #endif
