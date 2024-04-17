@@ -36,7 +36,8 @@ int main(){
         switch(choix){
             case 1: //Créer un graphe vide
                 if(g != NULL){
-                    printf("Suppresion du graphe précédent...\n");
+                    printf("Suppression du graphe précédent...\n");
+                    liberer_proprement_sommets(g->sommet);
                     free(g);
                 }
                 g = creerGraphe();
@@ -44,7 +45,8 @@ int main(){
                 break;
             case 2: //Construire un graphe de N sommets
                 if(g != NULL){
-                    printf("Suppresion du graphe précédent...\n");
+                    printf("Suppression du graphe précédent...\n");
+                    liberer_proprement_sommets(g->sommet);
                     free(g);
                 }
                 printf("Veuillez saisir le nombre de sommets pour le graphe\n");
@@ -62,13 +64,15 @@ int main(){
                         if(g == 0){
                             printf("Veuillez dans un premier temps creer un graphe\n");
                         }
-                        printf("Veuillez saisir l'indice du sommet :\n");
-                        scanf("%d", &idSommet);
-                        s = rechercherSommet(*g, idSommet);
-                        if(s!=NULL){
-                            printf("Ce sommet existe déjà\n");
-                        } else {
-                            creerSommet(g, idSommet);
+                        else{
+                            printf("Veuillez saisir l'indice du sommet :\n");
+                            scanf("%d", &idSommet);
+                            s = rechercherSommet(*g, idSommet);
+                            if(s!=NULL){
+                                printf("Ce sommet existe déjà\n");
+                            } else {
+                                creerSommet(g, idSommet);
+                            }
                         }
                         break;
             case 4: //Ajouter une arête
@@ -118,7 +122,7 @@ int main(){
                     if(s == NULL){
                         printf("Le sommet %d n'existe pas\n", idSommet);
                     }else{
-                        supprimerSommet(g, idSommet);
+                        supprimerSommet(g, idSommet); 
                     }
                 }
                 break;
@@ -158,6 +162,7 @@ int main(){
             case 10: //Quitter
                 continuer = false;
                 if(g!=NULL){
+                    liberer_proprement_sommets(g->sommet);
                     free(g);
                 }
                 break;

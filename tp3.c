@@ -85,6 +85,7 @@ void ajouterArete(graphe *g, int id1, int id2){
         }
 
         //ajout de id1 comme voisin à id2
+        if (s1 != s2){
         if (s2->voisin == NULL) {
             s2->voisin = (voisin *)malloc(sizeof(voisin));
             s2->voisin->indice = id1;
@@ -106,6 +107,7 @@ void ajouterArete(graphe *g, int id1, int id2){
             buffer->suiv = (voisin *)malloc(sizeof(voisin));
             buffer->suiv->indice = id1;
             buffer->suiv->suiv = temp;
+        }
         }
     }
 }
@@ -146,10 +148,11 @@ void afficherGraphe(graphe g){
     if (g.sommet == NULL) printf("votre graphe est vide");
     sommet *sommet_temp = g.sommet;
     while (sommet_temp != NULL) {
+        printf("test\n");
         printf("%d ", sommet_temp->indice);
         voisin *voisin_temp = sommet_temp->voisin;
         while (voisin_temp != NULL){
-            printf("-> %d ", voisin_temp->indice);
+            printf("-> %d ", voisin_temp->indice); //segmentation fault here 
             voisin_temp = voisin_temp->suiv;
         }
         sommet_temp = sommet_temp->suiv;
@@ -178,27 +181,27 @@ void supprimerSommet(graphe *g, int id){
     //supprimer le sommet id
     if (g->sommet->indice == id){
         sommet *sommet_temp = g->sommet->suiv;
-        free(g->sommet);
+        liberer_proprement_voisins(g->sommet->voisin);
         g->sommet = sommet_temp;
     }
     else{
-    sommet *buffer = g->sommet;
-    while (buffer->suiv->indice != id){
-        buffer = buffer->suiv;
-    }
-    sommet *sommet_temp = buffer->suiv->suiv;
-    free(buffer->suiv);
-    buffer->suiv = sommet_temp; 
+        sommet *buffer = g->sommet;
+        while (buffer->suiv->indice != id){
+            buffer = buffer->suiv;
+        }
+        sommet *sommet_temp = buffer->suiv->suiv;
+        liberer_proprement_voisins(buffer->suiv->voisin);
+        buffer->suiv = sommet_temp; 
     }
     // supprimer les voisins id
     sommet *buffer1 = g->sommet;
-    buffer1 = g->sommet;
     voisin *voisin_temp;
     while (buffer1 != NULL){
         voisin_temp = buffer1->voisin;
         if (voisin_temp!=NULL && voisin_temp->indice == id){
+            voisin_temp = buffer1->voisin->suiv;
             free(buffer1->voisin);
-            buffer1->voisin = voisin_temp->suiv;
+            buffer1->voisin = voisin_temp;
         }
         else{
             while (voisin_temp!=NULL && voisin_temp->suiv != NULL){
@@ -208,7 +211,7 @@ void supprimerSommet(graphe *g, int id){
                 voisin_temp = voisin_temp->suiv;
             }
             if (voisin_temp!=NULL && voisin_temp->indice == id){
-                free(voisin_temp);
+                voisin_temp = NULL;
             }
         }
         buffer1 = buffer1->suiv;
@@ -260,4 +263,19 @@ int is_in_voisin(sommet s, int id_sommet){ //renvoie 1 si id_sommet est un voisi
         voisin_temp = voisin_temp->suiv;
     }
     return 0;
+}
+
+void liberer_proprement_sommets(sommet *s){
+    if (s != NULL && s->suiv != NULL) {
+        liberer_proprement_sommets(s->suiv);
+    }
+    liberer_proprement_voisins(s->voisin);
+    free(s);
+}
+
+void liberer_proprement_voisins(voisin *vois){
+    if (vois != NULL && vois->suiv != NULL) {
+        liberer_proprement_voisins(vois->suiv);
+    }
+    free(vois);
 }
