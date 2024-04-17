@@ -69,7 +69,7 @@ int main(){
                             scanf("%d", &idSommet);
                             s = rechercherSommet(*g, idSommet);
                             if(s!=NULL){
-                                printf("Ce sommet existe déjà\n");
+                                printf("Ce sommet existe deja\n");
                             } else {
                                 creerSommet(g, idSommet);
                             }
