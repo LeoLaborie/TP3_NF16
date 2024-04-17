@@ -133,7 +133,7 @@ int main(){
                     if(contientBoucle(*g)){
                         printf("Le graphe contient une boucle\n");
                     }else{
-                        printf("Le graphe ne contient pas de boucles\n");
+                        printf("Le graphe ne contient pas de boucle\n");
                     }
                 }
                 break;
