@@ -10,32 +10,38 @@ graphe* creerGraphe(){
 }
 
 void creerSommet(graphe *g, int id){
-    sommet *s = malloc(sizeof(sommet));
-    if (s==NULL) printf("Erreur malloc creerSommet\n");
+    if (rechercherSommet(*g,id) != NULL){
+        printf("impossible de creer un sommet qui existe deja !\n");
+    }
+    else{
+        sommet *s = malloc(sizeof(sommet));
+        if (s==NULL) printf("Erreur malloc creerSommet\n");
 
-    if (g->sommet == NULL) {
-        g->sommet = (sommet *)malloc(sizeof(sommet));
-        g->sommet->indice = id;
-        g->sommet->suiv = NULL;
-    } 
-    else if(g->sommet->indice > id){
-        sommet *temp = g->sommet;
-        g->sommet = (sommet *)malloc(sizeof(sommet));
-        g->sommet->indice = id;
-        g->sommet->suiv = temp;
-    }
-    else {
-        
-        sommet *buffer = g->sommet;
-        while (buffer->suiv != NULL && buffer->suiv->indice < id) {
-            buffer = buffer->suiv;
+        if (g->sommet == NULL) {
+            g->sommet = (sommet *)malloc(sizeof(sommet));
+            g->sommet->indice = id;
+            g->sommet->suiv = NULL;
+        } 
+        else if(g->sommet->indice > id){
+            sommet *temp = g->sommet;
+            g->sommet = (sommet *)malloc(sizeof(sommet));
+            g->sommet->indice = id;
+            g->sommet->suiv = temp;
         }
-        sommet *temp = buffer->suiv;
-        buffer->suiv = (sommet *)malloc(sizeof(sommet));
-        buffer->suiv->indice = id;
-        buffer->suiv->suiv = temp;
+        else {
+            
+            sommet *buffer = g->sommet;
+            while (buffer->suiv != NULL && buffer->suiv->indice < id) {
+                buffer = buffer->suiv;
+            }
+        
+            
+                sommet *temp = buffer->suiv;
+                buffer->suiv = (sommet *)malloc(sizeof(sommet));
+                buffer->suiv->indice = id;
+                buffer->suiv->suiv = temp;
+        }
     }
-    
 }
 
 
@@ -118,7 +124,11 @@ graphe* construireGraphe(int N){
         int indice_sommet;
         printf("saisissez l'id d'un sommet à créer\n");
         scanf("%d", &indice_sommet);
-        creerSommet(g, indice_sommet);
+        if (indice_sommet == 0) {
+            printf("interdit de nommer un sommet '0'\n");
+            i--;
+        }
+        else creerSommet(g, indice_sommet);
         
     }
     printf("Combien d'arretes souhaitez vous ajouter ?\n");
@@ -132,7 +142,6 @@ graphe* construireGraphe(int N){
         printf("saisissez l'id du premier sommet à relier avec une arrete\n");
         scanf("%d", &indice_sommet1);
         printf("saisissez l'id du second sommet à relier avec une arrete au sommet %d\n", indice_sommet1);
-
         scanf("%d", &indice_sommet2);
 
         ajouterArete(g, indice_sommet1, indice_sommet2);
@@ -148,11 +157,10 @@ void afficherGraphe(graphe g){
     if (g.sommet == NULL) printf("votre graphe est vide");
     sommet *sommet_temp = g.sommet;
     while (sommet_temp != NULL) {
-        printf("test\n");
         printf("%d ", sommet_temp->indice);
         voisin *voisin_temp = sommet_temp->voisin;
         while (voisin_temp != NULL){
-            printf("-> %d ", voisin_temp->indice); //segmentation fault here 
+            printf("-> %d ", voisin_temp->indice); 
             voisin_temp = voisin_temp->suiv;
         }
         sommet_temp = sommet_temp->suiv;
@@ -164,15 +172,16 @@ int rechercherDegre(graphe g){
     sommet *sommet_temp = g.sommet;
     int degre_max = 0;
     while (sommet_temp != NULL){
-        voisin *voisin_temp = (*sommet_temp).voisin;
+        voisin *voisin_temp = sommet_temp->voisin;
         int nbr_voisins = 0;
         while (voisin_temp != NULL){
             nbr_voisins++;
-            voisin_temp = (*voisin_temp).suiv;
+            voisin_temp = voisin_temp->suiv;
         }
         if (nbr_voisins > degre_max){
             degre_max = nbr_voisins;
         }
+        sommet_temp = sommet_temp->suiv;
     }
     return degre_max;
 }
@@ -269,7 +278,7 @@ void liberer_proprement_sommets(sommet *s){
     if (s != NULL && s->suiv != NULL) {
         liberer_proprement_sommets(s->suiv);
     }
-    liberer_proprement_voisins(s->voisin);
+    if (s!=NULL) liberer_proprement_voisins(s->voisin);
     free(s);
 }
 
