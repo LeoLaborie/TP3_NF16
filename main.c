@@ -36,16 +36,16 @@ int main(){
         switch(choix){
             case 1: //Créer un graphe vide
                 if(g != NULL){
-                    printf("Suppression du graphe précédent...\n");
+                    printf("Suppression du graphe precedent...\n");
                     liberer_proprement_sommets(g->sommet);
                     free(g);
                 }
                 g = creerGraphe();
-                printf("graphe vide créé !\n");
+                printf("graphe vide cree !\n");
                 break;
             case 2: //Construire un graphe de N sommets
                 if(g != NULL){
-                    printf("Suppression du graphe précédent...\n");
+                    printf("Suppression du graphe precedent...\n");
                     liberer_proprement_sommets(g->sommet);
                     free(g);
                 }
