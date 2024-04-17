@@ -139,13 +139,13 @@ graphe* construireGraphe(int N){
     int indice_sommet2;
     for (int i = 0; i<nbr_arrete; i++){
 
-        printf("saisissez l'id du premier sommet a relier avec une arrete\n");
+        printf("saisissez l'id du premier sommet a relier avec une arete\n");
         scanf("%d", &indice_sommet1);
-        printf("saisissez l'id du second sommet a relier avec une arrete au sommet %d\n", indice_sommet1);
+        printf("saisissez l'id du second sommet a relier avec une arete au sommet %d\n", indice_sommet1);
         scanf("%d", &indice_sommet2);
 
         ajouterArete(g, indice_sommet1, indice_sommet2);
-        printf("Les sommets %d et %d ont correctement ete relies avec une arrête.\n", indice_sommet1, indice_sommet2);
+        printf("Les sommets %d et %d ont correctement ete relies avec une arete.\n", indice_sommet1, indice_sommet2);
         
     }
     return g;
