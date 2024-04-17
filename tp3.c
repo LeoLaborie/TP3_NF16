@@ -122,7 +122,7 @@ graphe* construireGraphe(int N){
     graphe *g = creerGraphe();
     for (int i = 0; i<N; i++){
         int indice_sommet;
-        printf("saisissez l'id d'un sommet à créer\n");
+        printf("saisissez l'id d'un sommet a creer\n");
         scanf("%d", &indice_sommet);
         if (indice_sommet == 0) {
             printf("interdit de nommer un sommet '0'\n");
@@ -139,13 +139,13 @@ graphe* construireGraphe(int N){
     int indice_sommet2;
     for (int i = 0; i<nbr_arrete; i++){
 
-        printf("saisissez l'id du premier sommet à relier avec une arrete\n");
+        printf("saisissez l'id du premier sommet a relier avec une arrete\n");
         scanf("%d", &indice_sommet1);
-        printf("saisissez l'id du second sommet à relier avec une arrete au sommet %d\n", indice_sommet1);
+        printf("saisissez l'id du second sommet a relier avec une arrete au sommet %d\n", indice_sommet1);
         scanf("%d", &indice_sommet2);
 
         ajouterArete(g, indice_sommet1, indice_sommet2);
-        printf("Les sommets %d et %d ont correctement été reliés avec une arrête.\n", indice_sommet1, indice_sommet2);
+        printf("Les sommets %d et %d ont correctement ete relies avec une arrête.\n", indice_sommet1, indice_sommet2);
         
     }
     return g;
