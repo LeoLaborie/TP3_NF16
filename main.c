@@ -36,16 +36,16 @@ int main(){
         switch(choix){
             case 1: //Créer un graphe vide
                 if(g != NULL){
-                    printf("Suppression du graphe précédent...\n");
+                    printf("Suppression du graphe precedent...\n");
                     liberer_proprement_sommets(g->sommet);
                     free(g);
                 }
                 g = creerGraphe();
-                printf("graphe vide créé !\n");
+                printf("graphe vide cree !\n");
                 break;
             case 2: //Construire un graphe de N sommets
                 if(g != NULL){
-                    printf("Suppression du graphe précédent...\n");
+                    printf("Suppression du graphe precedent...\n");
                     liberer_proprement_sommets(g->sommet);
                     free(g);
                 }
@@ -69,7 +69,7 @@ int main(){
                             scanf("%d", &idSommet);
                             s = rechercherSommet(*g, idSommet);
                             if(s!=NULL){
-                                printf("Ce sommet existe déjà\n");
+                                printf("Ce sommet existe deja\n");
                             } else {
                                 creerSommet(g, idSommet);
                             }
@@ -133,7 +133,7 @@ int main(){
                     if(contientBoucle(*g)){
                         printf("Le graphe contient une boucle\n");
                     }else{
-                        printf("Le graphe ne contient pas de boucles\n");
+                        printf("Le graphe ne contient pas de boucle\n");
                     }
                 }
                 break;
